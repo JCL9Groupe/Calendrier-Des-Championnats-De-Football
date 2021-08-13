@@ -1,17 +1,20 @@
 <?php
     // Recuperations des equipes
-    require("./data/equipes.php");
+    require("./controller/EquipeController.php");
+    require("./controller/MatchController.php");
 
-    $equipes = [];
-
+    $groupes = [ [], [] ];
+    $listeDeLotequipes = [];
+    
     $listeDesEquipes = listeEquipe();
 
     for ($i=0; $i < 4; $i++) { 
-        array_push($equipes, deuxEquipesDeMemeLot($listeDesEquipes[$i], $listeDesEquipes));
+        array_push($listeDeLotequipes, deuxEquipesDeMemeLot($listeDesEquipes[$i], $listeDesEquipes));
     }
 
-    echo "<pre>";
-    print_r($equipes);
+    if (isset($_GET['tirage'])) {
+        $groupes = tirage($groupes, $listeDeLotequipes);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -62,9 +65,99 @@
                 </tr>
             </tbody>
         </table>
-
+        
         <form action="index.php" method="GET">
             <input type="submit" name="tirage" value="Tirage">
         </form>
+        
+        <?php
+            if (!empty($groupes[0])) {
+                ?>
+
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Groupe A</th>
+                            <th>Groupe B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            foreach ($groupes[0] as $key => $equipe) { 
+                                
+                                $index = $key + 1;
+                                
+                                ?>
+                                    <tr>
+                                        <td><?= $index ?><sup>e</sup> tete de serie</td>
+                                        <td><?= $equipe->getNom() ?></td>
+                                        <td><?= $groupes[1][$key]->getNom() ?></td>
+                                    </tr>
+                                    <?php
+                            }
+                    ?>
+                    </tbody>
+                </table>
+                
+                
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Groupe A</th>
+                            <th>Affiche</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $listeMatchsPremierTours = listerMatchsPremierTour($groupes);
+
+                            $index = 1;
+
+                            foreach ($listeMatchsPremierTours[0] as $key => $match) { 
+
+                                ?>
+                                    <tr>
+                                        <td>Match <?= $index ?></td>
+                                        <td><?= $match->getEquipe1()->getNom() ?> VS <?= $match->getEquipe2()->getNom() ?></td>
+                                        <td>? - ?</td>
+                                    </tr>
+                                <?php
+                                $index++;
+                            }
+                        ?>
+                    </tbody>
+                </table>
+
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Groupe B</th>
+                            <th>Affiche</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $listeMatchsPremierTours = listerMatchsPremierTour($groupes);
+
+                            foreach ($listeMatchsPremierTours[1] as $key => $match) { 
+
+                                ?>
+                                    <tr>
+                                        <td>Match <?= $index ?></td>
+                                        <td><?= $match->getEquipe1()->getNom() ?> VS <?= $match->getEquipe2()->getNom() ?></td>
+                                        <td>? - ?</td>
+                                    </tr>
+                                <?php
+                                $index++;
+                            }
+                        ?>
+                    </tbody>
+                </table>
+                <?php
+            }
+        ?>
     </body>
 </html>

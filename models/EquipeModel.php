@@ -1,6 +1,6 @@
 <?php
     class Equipe{
-
+        
         private $id;
         private $nom;
         private $lot;
@@ -21,6 +21,10 @@
         
         public function getLot(){
             return $this->lot;
+        }
+
+        public function setBut($but){
+            $this->but = $but;
         }
     }
 ?>

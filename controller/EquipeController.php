@@ -1,5 +1,5 @@
 <?php
-    require("./models/equipe.php");
+    require("./models/EquipeModel.php");
 
     //Fonction qui retourne la liste des equipes
     function listeEquipe(){
@@ -32,16 +32,21 @@
         return $lesDeuxEquipes;
     }
 
-    //Function qui permet de tester si une equipe existe deja dans un tableau
-    // function equipeExiste($equipe, $tableauEquipes){
-    //     $existe = false;
+    //Fonction qui permet de faire le tirage
+    function tirage($groupes, $tableauEquipes){
 
-    //     foreach ($tableauEquipes as $newEquipe) {
-    //         if ($newEquipe->getNom() == $equipe->getNom() && $newEquipe->getId() == $equipe->getId()) {
-    //             $existe = true;
-    //         }
-    //     }
+        foreach ($tableauEquipes as $sousTableau) {
+            if ($sousTableau[rand(0, 1)] == $sousTableau[0]) {
+                array_push($groupes[0], $sousTableau[0]);
+                array_push($groupes[1], $sousTableau[1]);
+            }else{
+                array_push($groupes[0], $sousTableau[1]);
+                array_push($groupes[1], $sousTableau[0]);
+            }
+        }
 
-    //     return $existe;
-    // }
+        return $groupes;
+    }
+
+
 ?>
