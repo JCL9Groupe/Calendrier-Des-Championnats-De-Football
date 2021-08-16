@@ -8,7 +8,7 @@
     
     $listeDesEquipes = listeEquipe();
 
-    for ($i=0; $i < 4; $i++) { 
+    for ($i=0; $i < count($listeDesEquipes) / 2; $i++) { 
         array_push($listeDeLotequipes, deuxEquipesDeMemeLot($listeDesEquipes[$i], $listeDesEquipes));
     }
 
@@ -117,11 +117,13 @@
 
                             foreach ($listeMatchsPremierTours[0] as $key => $match) { 
 
+                                $match->jouer();
+
                                 ?>
                                     <tr>
                                         <td>Match <?= $index ?></td>
                                         <td><?= $match->getEquipe1()->getNom() ?> VS <?= $match->getEquipe2()->getNom() ?></td>
-                                        <td>? - ?</td>
+                                        <td><?= $match->getEquipe1()->getBut() ?> - <?= $match->getEquipe2()->getBut() ?></td>
                                     </tr>
                                 <?php
                                 $index++;
@@ -144,11 +146,141 @@
 
                             foreach ($listeMatchsPremierTours[1] as $key => $match) { 
 
+                                $match->jouer();
+
                                 ?>
                                     <tr>
                                         <td>Match <?= $index ?></td>
                                         <td><?= $match->getEquipe1()->getNom() ?> VS <?= $match->getEquipe2()->getNom() ?></td>
-                                        <td>? - ?</td>
+                                        <td><?= $match->getEquipe1()->getBut() ?> - <?= $match->getEquipe2()->getBut() ?></td>
+                                    </tr>
+                                <?php
+                                $index++;
+                            }
+                        ?>
+                    </tbody>
+                </table>
+
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th colspan="10">Groupe A</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>MJ</th>
+                            <th>MG</th>
+                            <th>MN</th>
+                            <th>MP</th>
+                            <th>BP</th>
+                            <th>BC</th>
+                            <th>Diff</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $listeMatchsPremierTours = listerMatchsPremierTour($groupes);
+
+                            foreach ($groupes[0] as $key => $equipe) { 
+
+                                $position;
+
+                                switch ($key) {
+                                    case 0:
+                                        $position = "Premier";
+                                        break;
+                                    
+                                        
+                                    case 1:
+                                        $position = "Deuxieme";
+                                        break;
+                                    
+                                    case 2:
+                                        $position = "Troisieme";
+                                        break;
+                                    
+                                    case 3:
+                                        $position = "Quatrieme";
+                                        break;
+                                    default:break;
+                                }
+
+                                ?>
+                                    <tr>
+                                        <td><?= $position ?></td>
+                                        <td><?= $equipe->getMatchJouer() ?></td>
+                                        <td><?= $equipe->getMatchGagner() ?></td>
+                                        <td><?= $equipe->getMatchNull() ?></td>
+                                        <td><?= $equipe->getMatchPerdu() ?></td>
+                                        <td><?= $equipe->getButPour() ?></td>
+                                        <td><?= $equipe->getButContre() ?></td>
+                                        <td><?= $equipe->getDiff() ?></td>
+                                        <td><?= $equipe->getPoints() ?></td>
+                                    </tr>
+                                <?php
+                                $index++;
+                            }
+                        ?>
+                    </tbody>
+                </table>
+
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th colspan="9">Groupe B</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>MJ</th>
+                            <th>MG</th>
+                            <th>MN</th>
+                            <th>MP</th>
+                            <th>BP</th>
+                            <th>BC</th>
+                            <th>Diff</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $listeMatchsPremierTours = listerMatchsPremierTour($groupes);
+
+                            foreach ($groupes[1] as $key => $equipe) { 
+
+                                $position;
+
+                                switch ($key) {
+                                    case 0:
+                                        $position = "Premier";
+                                        break;
+                                    
+                                        
+                                    case 1:
+                                        $position = "Deuxieme";
+                                        break;
+                                    
+                                    case 2:
+                                        $position = "Troisieme";
+                                        break;
+                                    
+                                    case 3:
+                                        $position = "Quatrieme";
+                                        break;
+                                    default:break;
+                                }
+
+                                ?>
+                                    <tr>
+                                        <td><?= $position ?></td>
+                                        <td><?= $equipe->getMatchJouer() ?></td>
+                                        <td><?= $equipe->getMatchGagner() ?></td>
+                                        <td><?= $equipe->getMatchNull() ?></td>
+                                        <td><?= $equipe->getMatchPerdu() ?></td>
+                                        <td><?= $equipe->getButPour() ?></td>
+                                        <td><?= $equipe->getButContre() ?></td>
+                                        <td><?= $equipe->getDiff() ?></td>
+                                        <td><?= $equipe->getPoints() ?></td>
                                     </tr>
                                 <?php
                                 $index++;
